@@ -16,10 +16,10 @@ public class AlunoController {
     public String abrirFormulario(Model model) {
         List<Aluno> alunos = new ArrayList<>();
 
-        alunos.add(new Aluno(1, "Israel", "M"));
-        alunos.add(new Aluno(2, "Maria", "F"));
-        alunos.add(new Aluno(3, "João", "M"));
-        alunos.add(new Aluno(4, "Pedro", "M "));
+        alunos.add(new Aluno("1 - Infor", "321.322.44-54", 32,"Ariel Nyerson"));
+        alunos.add(new Aluno("3 - Agro", "321.322.44-54", 22,"Leison"));
+        alunos.add(new Aluno("2 - ADM", "321.322.44-54", 12,"Marcos"));
+        alunos.add(new Aluno("1 - Ser", "321.322.44-54", 42,"Sou eu"));
 
         model.addAttribute("listaAlunos", alunos);
         return "cadastro";

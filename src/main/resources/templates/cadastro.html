@@ -10,15 +10,17 @@
 <table border="1">
 
     <tr>
-        <th>Número</th>
+        <th>Turma</th>
+        <th>Matricula</th>
+        <th>Numero</th>
         <th>Nome</th>
-        <th>Sexo</th>
     </tr>
 
     <tr th:each="aluno : ${listaAlunos}">
+        <td th:text="${aluno.turma.descricao}"></td>
+        <td th:text="${aluno.matricula}"></td>
         <td th:text="${aluno.numero}"></td>
         <td th:text="${aluno.nome}"></td>
-        <td th:text="${aluno.sexo}"></td>
     </tr>
 
 </table>

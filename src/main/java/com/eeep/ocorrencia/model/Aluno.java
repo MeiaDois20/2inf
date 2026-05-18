@@ -2,17 +2,26 @@ package com.eeep.ocorrencia.model;
 
 public class Aluno {
 
+    private String matricula;
     private Integer numero;
     private String nome;
-    private String sexo;
 
-    public Aluno() {
-    }
+    private final Turma turma;
 
-    public Aluno(Integer numero, String nome, String sexo) {
+    public Aluno(String turma, String matricula, Integer numero, String nome) {
+        this.turma = new Turma();
+        this.turma.setDescricao(turma);
+        this.matricula = matricula;
         this.numero = numero;
         this.nome = nome;
-        this.sexo = sexo;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 
     public Integer getNumero() {
@@ -31,11 +40,7 @@ public class Aluno {
         this.nome = nome;
     }
 
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    public Turma getTurma() {
+        return turma;
     }
 }
