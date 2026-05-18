@@ -7,7 +7,7 @@
 ##Nome do Integrante 4
 
 # Equipe 2
-## halys Ravel
+## Thalys Ravel
 ## Leison Lopes
 ## Ariel Nyerson
 ## Marcos Aurélio
