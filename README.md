@@ -6,8 +6,8 @@
 ##Nome do Integrante 3
 ##Nome do Integrante 4
 
-#Equipe 2
-##Thalys Ravel
-##Leison Lopes
-##Ariel Nyerson
-##Marcos Aurélio
+# Equipe 2
+## halys Ravel
+## Leison Lopes
+## Ariel Nyerson
+## Marcos Aurélio
