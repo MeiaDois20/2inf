@@ -6,7 +6,7 @@
 ##Nome do Integrante 3
 ##Nome do Integrante 4
 
-# Equipe 2
+# Equipe 62
 ## Thalys Ravel
 ## Leison Lopes
 ## Ariel Nyerson
