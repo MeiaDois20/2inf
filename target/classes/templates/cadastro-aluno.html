@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Cadastro Aluno — EEEP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:         #080b12;
+            --surface:    #0e1320;
+            --border:     #1c2340;
+            --accent:     #00c9a7;
+            --accent-h:   #00a88c;
+            --accent-dim: #00c9a715;
+            --danger:     #ff5c5c;
+            --text:       #eef0f8;
+            --muted:      #5a6282;
+            --input-bg:   #080b12;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            padding: 40px 16px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: .3;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 60% at 50% 40%, #00c9a70a 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .card {
+            position: relative;
+            z-index: 10;
+            width: min(480px, 100%);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 32px 80px #00000070;
+            animation: rise .5s cubic-bezier(.22,1,.36,1) both;
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .82rem;
+            color: var(--muted);
+            text-decoration: none;
+            margin-bottom: 32px;
+            transition: color .2s;
+        }
+        .back:hover { color: var(--accent); }
+
+        .profile-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-dim);
+            border: 1px solid #00c9a730;
+            border-radius: 100px;
+            padding: 6px 14px 6px 10px;
+            font-size: .82rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .sub {
+            color: var(--muted);
+            font-size: .9rem;
+            font-weight: 300;
+            margin-bottom: 36px;
+        }
+
+        /* ── seção ── */
+        .section-label {
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #00c9a720;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .field { margin-bottom: 18px; }
+        .field.full { grid-column: 1 / -1; }
+
+        label {
+            display: block;
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px 16px;
+            background: var(--input-bg);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: .95rem;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+            appearance: none;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235a6282' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        select option { background: #0e1320; }
+
+        input:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px #00c9a720;
+        }
+
+        .erro {
+            background: #ff5c5c12;
+            border: 1px solid #ff5c5c40;
+            color: var(--danger);
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: .87rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: #080b12;
+            font-family: 'Syne', sans-serif;
+            font-size: .95rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background .2s, transform .15s;
+            margin-top: 8px;
+            letter-spacing: .02em;
+        }
+
+        .btn:hover  { background: var(--accent-h); }
+        .btn:active { transform: scale(.98); }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: .85rem;
+            color: var(--muted);
+        }
+
+        .footer-link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link a:hover { text-decoration: underline; }
+
+        .divider { margin: 24px 0; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <a th:href="@{/login/aluno}" class="back">← Voltar ao login</a>
+
+    <div class="profile-chip">🎒 Aluno</div>
+    <h1>Criar Conta</h1>
+    <p class="sub">Preencha seus dados para se cadastrar</p>
+
+    <div class="erro" th:if="${erro}" th:text="${erro}"></div>
+
+    <form th:action="@{/cadastro/aluno}" th:object="${usuario}" method="post">
+
+        <!-- DADOS PESSOAIS -->
+        <div class="section-label">Dados Pessoais</div>
+        <div class="grid-2">
+            <div class="field full">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" th:field="*{nome}"
+                       placeholder="Seu nome completo" required/>
+            </div>
+            <div class="field full">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" th:field="*{email}"
+                       placeholder="seu@email.com" required/>
+            </div>
+            <div class="field">
+                <label for="numero">Número</label>
+                <input type="number" id="numero" th:field="*{numero}"
+                       placeholder="Nº na turma" min="1" max="45" required/>
+            </div>
+        </div>
+
+        <!-- TURMA -->
+        <div class="divider"></div>
+        <div class="section-label">Turma</div>
+        <div class="grid-2">
+            <div class="field">
+                <label for="codigoTurma">Código da Turma</label>
+                <select id="codigoTurma" th:field="*{codigoTurma}" required>
+                    <option value="">Selecione...</option>
+                    <option value="1">1° ANO</option>
+                    <option value="2">2° ANO</option>
+                    <option value="3">3° ANO</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="descricaoTurma">Curso</label>
+                <input type="text" id="descricaoTurma" th:field="*{descricaoTurma}"
+                       placeholder="Ex: ADM" required/>
+            </div>
+        </div>
+
+        <!-- ACESSO -->
+        <div class="divider"></div>
+        <div class="section-label">Acesso</div>
+        <div class="field">
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" th:field="*{senha}"
+                   placeholder="Mínimo 6 caracteres" minlength="6" required/>
+        </div>
+        <div class="field">
+            <label for="confirmarSenha">Confirmar Senha</label>
+            <input type="password" id="confirmarSenha" name="confirmarSenha"
+                   placeholder="Repita a senha" minlength="6" required/>
+        </div>
+
+        <button type="submit" class="btn">Cadastrar</button>
+    </form>
+
+    <div class="footer-link">
+        Já tem conta? <a th:href="@{/login/aluno}">Entrar</a>
+    </div>
+</div>
+
+<script>
+    // Sincroniza o select com o campo de curso automaticamente
+    const map = { '1':'ADM', '2':'INFOR', '3':'ENF', '4':'LOG', '5':'CONT' };
+    document.getElementById('codigoTurma').addEventListener('change', function () {
+        document.getElementById('descricaoTurma').value = map[this.value] || '';
+    });
+
+    // Validação de senha no client
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const s1 = document.getElementById('senha').value;
+        const s2 = document.getElementById('confirmarSenha').value;
+        if (s1 !== s2) {
+            e.preventDefault();
+            alert('As senhas não coincidem.');
+        }
+    });
+</script>
+</body>
+</html>

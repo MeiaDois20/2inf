@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EEEP Ocorrências — Acesso</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:         #080b12;
+            --surface:    #0e1320;
+            --border:     #1c2340;
+            --aluno:      #00c9a7;
+            --aluno-dim:  #00c9a715;
+            --prof:       #f59e0b;
+            --prof-dim:   #f59e0b15;
+            --text:       #eef0f8;
+            --muted:      #5a6282;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* ── grid de fundo ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: .35;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 55% 55% at 20% 50%, #00c9a708 0%, transparent 60%),
+                radial-gradient(ellipse 55% 55% at 80% 50%, #f59e0b08 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* ── modal ── */
+        .modal {
+            position: relative;
+            z-index: 10;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 56px 48px 48px;
+            width: min(520px, 92vw);
+            text-align: center;
+            box-shadow: 0 40px 100px #00000080;
+            animation: rise .55s cubic-bezier(.22,1,.36,1) both;
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(40px) scale(.97); }
+            to   { opacity: 1; transform: translateY(0)   scale(1); }
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: 'Syne', sans-serif;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 5px 16px;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 10px;
+        }
+
+        .sub {
+            color: var(--muted);
+            font-size: .95rem;
+            font-weight: 300;
+            margin-bottom: 44px;
+        }
+
+        /* ── cards de escolha ── */
+        .choices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .choice {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            padding: 32px 20px;
+            border-radius: 18px;
+            border: 1.5px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            text-decoration: none;
+            transition: border-color .25s, background .25s, transform .2s, box-shadow .25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .choice::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity .3s;
+            border-radius: inherit;
+        }
+
+        /* Aluno */
+        .choice.aluno::before { background: var(--aluno-dim); }
+        .choice.aluno:hover {
+            border-color: var(--aluno);
+            box-shadow: 0 0 32px #00c9a722, inset 0 0 0 1px #00c9a733;
+            transform: translateY(-4px);
+        }
+        .choice.aluno:hover::before { opacity: 1; }
+        .choice.aluno .icon { color: var(--aluno); }
+
+        /* Professor */
+        .choice.prof::before { background: var(--prof-dim); }
+        .choice.prof:hover {
+            border-color: var(--prof);
+            box-shadow: 0 0 32px #f59e0b22, inset 0 0 0 1px #f59e0b33;
+            transform: translateY(-4px);
+        }
+        .choice.prof:hover::before { opacity: 1; }
+        .choice.prof .icon { color: var(--prof); }
+
+        .choice:active { transform: translateY(-1px) scale(.98); }
+
+        .icon {
+            font-size: 2.4rem;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .choice-label {
+            position: relative;
+            z-index: 1;
+        }
+
+        .choice-label strong {
+            display: block;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .choice-label span {
+            font-size: .8rem;
+            color: var(--muted);
+            font-weight: 300;
+        }
+
+        .arrow {
+            position: relative;
+            z-index: 1;
+            font-size: .85rem;
+            color: var(--muted);
+            margin-top: auto;
+            transition: color .2s, transform .2s;
+        }
+
+        .choice:hover .arrow { transform: translateX(4px); }
+        .choice.aluno:hover .arrow { color: var(--aluno); }
+        .choice.prof:hover   .arrow { color: var(--prof); }
+
+        .footer {
+            font-size: .8rem;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>
+<div class="modal">
+    <div class="badge">EEEP — Sistema de Ocorrências</div>
+    <h1>Como você quer entrar?</h1>
+    <p class="sub">Selecione seu perfil para continuar</p>
+
+    <div class="choices">
+        <a th:href="@{/login/aluno}" href="/login/aluno" class="choice aluno">
+            <div class="icon">🎒</div>
+            <div class="choice-label">
+                <strong>Aluno</strong>
+                <span>Acesso ao portal estudantil</span>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+
+        <a th:href="@{/login/professor}" href="/login/professor" class="choice prof">
+            <div class="icon">📋</div>
+            <div class="choice-label">
+                <strong>Professor</strong>
+                <span>Registro de ocorrências</span>
+            </div>
+            <div class="arrow">→</div>
+        </a>
+    </div>
+
+    <p class="footer">Escola Estadual de Educação Profissional</p>
+</div>
+</body>
+</html>

@@ -12,17 +12,17 @@ import java.util.List;
 @Controller
 public class AlunoController {
 
-    @GetMapping("/")
+    @GetMapping("/cadastroIsrael")
     public String abrirFormulario(Model model) {
         List<Aluno> alunos = new ArrayList<>();
 
-        alunos.add(new Aluno("1 - Infor", "321.322.44-54", 32,"Ariel Nyerson"));
-        alunos.add(new Aluno("3 - Agro", "321.322.44-54", 22,"Leison"));
-        alunos.add(new Aluno("2 - ADM", "321.322.44-54", 12,"Marcos"));
-        alunos.add(new Aluno("1 - Ser", "321.322.44-54", 42,"Sou eu"));
+        alunos.add(new Aluno(1, "1° Infor", "321.322.44-54", 32,"Ariel Nyerson"));
+        alunos.add(new Aluno(2, "3° Agro", "321.322.44-54", 22,"Leison"));
+        alunos.add(new Aluno(3, "2° ADM", "321.322.44-54", 12,"Marcos"));
+        alunos.add(new Aluno(4, "1° Ser", "321.322.44-54", 42,"Sou eu"));
 
         model.addAttribute("listaAlunos", alunos);
-        return "cadastro";
+        return "cadastroIsrael";
 
     }
 }

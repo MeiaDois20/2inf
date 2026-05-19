@@ -16,8 +16,6 @@
         <th>Nome</th>
     </tr>
 
-
-
     <tr th:each="aluno : ${listaAlunos}">
         <td th:text="${aluno.turma.descricao}"></td>
         <td th:text="${aluno.matricula}"></td>

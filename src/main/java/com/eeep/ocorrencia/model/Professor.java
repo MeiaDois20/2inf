@@ -1,11 +1,14 @@
 package com.eeep.ocorrencia.model;
 
+
 public class Professor {
 
     private String matricula;
     private String nome;
     private String disciplina;
     private String email;
+
+    public Professor() {}
 
     public Professor(String matricula, String nome, String disciplina, String email) {
         this.matricula = matricula;
@@ -14,37 +17,17 @@ public class Professor {
         this.email = email;
     }
 
-    public String getMateria() {
-        return matricula;
-    }
+    public String getMatricula() { return matricula; }
+    public void setMatricula(String matricula) { this.matricula = matricula; }
 
-    public void setMateria(String materia) {
-        this.matricula = matricula;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public String getNome() {
-        return nome;
-    }
+    public String getDisciplina() { return disciplina; }
+    public void setDisciplina(String disciplina) { this.disciplina = disciplina; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDisciplina() {
-        return disciplina;
-    }
-
-    public void setDisciplina(String disciplina) {
-        this.disciplina = disciplina;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     public void exibirInformacoes() {
         System.out.println("Nome: " + nome);

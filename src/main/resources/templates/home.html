@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Home — EEEP Ocorrências</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0f1117; --panel: #181c27; --border: #2a2f42;
+            --accent: #4f7cff; --text: #e8eaf0; --muted: #6b7280;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--bg);
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+        }
+
+        .card {
+            text-align: center;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 56px 48px;
+            max-width: 440px;
+            width: 100%;
+            box-shadow: 0 24px 64px #00000060;
+            animation: fadeUp .45s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .check {
+            width: 64px; height: 64px;
+            background: #4f7cff18;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 28px;
+            font-size: 1.8rem;
+        }
+
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.9rem;
+            font-weight: 400;
+            margin-bottom: 10px;
+        }
+
+        p { color: var(--muted); font-size: .95rem; margin-bottom: 36px; }
+
+        .email-badge {
+            display: inline-block;
+            background: #4f7cff18;
+            border: 1px solid #4f7cff44;
+            color: var(--accent);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: .88rem;
+            font-weight: 600;
+            margin-bottom: 36px;
+        }
+
+        .btn-logout {
+            display: inline-block;
+            padding: 12px 32px;
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color .2s, color .2s;
+        }
+
+        .btn-logout:hover { border-color: #ff5c5c88; color: #ff5c5c; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="check">✓</div>
+    <h1>Login realizado!</h1>
+    <p>Você está autenticado no sistema de ocorrências.</p>
+    <div class="email-badge" th:text="${email}"></div>
+    <br/>
+    <a th:href="@{/logout}" class="btn-logout">Sair da conta</a>
+</div>
+</body>
+</html>
