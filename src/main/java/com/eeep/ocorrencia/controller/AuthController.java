@@ -24,7 +24,7 @@ public class AuthController {
     // login do aluno
     @GetMapping("/login/aluno")
     public String loginAlunoForm(Model model) {
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("alunoLogin", new Usuario());
         return "login-aluno";
     }
 
