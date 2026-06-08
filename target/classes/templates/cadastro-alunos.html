@@ -225,7 +225,7 @@
 
     <div class="erro" th:if="${erro}" th:text="${erro}"></div>
 
-    <form th:action="@{/cadastro/aluno}" th:object="${usuario}" method="post">
+    <form th:action="@{/cadastro/aluno}" th:object="${alunoLogin}" method="post">
 
         <!-- DADOS PESSOAIS -->
         <div class="section-label">Dados Pessoais</div>

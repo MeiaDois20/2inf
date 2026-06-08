@@ -1,46 +1,144 @@
 package com.eeep.ocorrencia.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Usuario {
 
-    private String nome;
     private String email;
-    private String matricula;
     private String senha;
+    private String nome;
+    private String matricula;
 
-    // aluno
+    // ALUNO
     private Integer numero;
     private Integer codigoTurma;
-    private String  descricaoTurma;
+    private String descricaoTurma;
 
-    // professor
-    private List<String> disciplinas = new ArrayList<>();
+    private AlunoTeste aluno;
+    private ProfessorTeste professor;
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    // CONSTRUTOR ALUNO
+    public Usuario(
+            String nome,
+            String email,
+            String matricula,
+            String senha,
+            Integer numero,
+            Integer codigoTurma,
+            String descricaoTurma) {
 
-    public String getMatricula() { return matricula; }
-    public void setMatricula(String matricula) { this.matricula = matricula; }
+        this.nome = nome;
+        this.email = email;
+        this.matricula = matricula;
+        this.senha = senha;
 
-    public String getSenha() { return senha; }
-    public void setSenha(String senha) { this.senha = senha; }
+        this.numero = numero;
+        this.codigoTurma = codigoTurma;
+        this.descricaoTurma = descricaoTurma;
 
-    public Integer getNumero() { return numero; }
-    public void setNumero(Integer numero) { this.numero = numero; }
+        this.aluno = new AlunoTeste(
+                nome,
+                email,
+                senha,
+                numero,
+                matricula,
+                codigoTurma,
+                descricaoTurma
+        );
+    }
 
-    public Integer getCodigoTurma() { return codigoTurma; }
-    public void setCodigoTurma(Integer codigoTurma) { this.codigoTurma = codigoTurma; }
+    // CONSTRUTOR PROFESSOR
+    public Usuario(
+            String nome,
+            String email,
+            String senha,
+            String matricula,
+            String disciplina) {
 
-    public String getDescricaoTurma() { return descricaoTurma; }
-    public void setDescricaoTurma(String descricaoTurma) { this.descricaoTurma = descricaoTurma; }
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.matricula = matricula;
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+        this.professor = new ProfessorTeste(
+                nome,
+                email,
+                senha,
+                disciplina,
+                matricula
+        );
+    }
 
-    public List<String> getDisciplinas() { return disciplinas; }
-    public void setDisciplinas(List<String> disciplinas) { this.disciplinas = disciplinas; }
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public Integer getNumero() {
+        return numero;
+    }
+
+    public void setNumero(Integer numero) {
+        this.numero = numero;
+    }
+
+    public Integer getCodigoTurma() {
+        return codigoTurma;
+    }
+
+    public void setCodigoTurma(Integer codigoTurma) {
+        this.codigoTurma = codigoTurma;
+    }
+
+    public String getDescricaoTurma() {
+        return descricaoTurma;
+    }
+
+    public void setDescricaoTurma(String descricaoTurma) {
+        this.descricaoTurma = descricaoTurma;
+    }
+
+    public AlunoTeste getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(AlunoTeste aluno) {
+        this.aluno = aluno;
+    }
+
+    public ProfessorTeste getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(ProfessorTeste professor) {
+        this.professor = professor;
+    }
 }

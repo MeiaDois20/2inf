@@ -15,6 +15,30 @@ public class AuthController {
     private static final List<Usuario> alunos = new ArrayList<>();
     private static final List<Usuario> professores = new ArrayList<>();
 
+    static {
+        alunos.add(
+                new Usuario(
+                        "Administrador",
+                        "adm@adm.com",
+                        "123.456.789-10",
+                        "@adm123",
+                        1,
+                        123,
+                        "Informatica"
+                )
+        );
+
+        professores.add(
+                new Usuario(
+                        "Administrador",
+                        "adm@adm.com",
+                        "@adm123",
+                        "@123.456.789-10",
+                        "Programacao Web"
+                )
+        );
+    }
+
     // selecionar o tipo da conta(se é prof ou aluno)
     @GetMapping("/")
     public String selecao() {
@@ -29,17 +53,25 @@ public class AuthController {
     }
 
     @PostMapping("/login/aluno")
-    public String loginAluno(@ModelAttribute Usuario usuario,
-                             HttpSession session, Model model) {
+    public String loginAluno(
+            @ModelAttribute Usuario usuario,
+            HttpSession session,
+            Model model) {
+
         boolean ok = alunos.stream()
-                .anyMatch(u -> u.getEmail().equals(usuario.getEmail())
-                        && u.getSenha().equals(usuario.getSenha()));
+                .anyMatch(u ->
+                        u.getEmail().equals(usuario.getEmail())
+                                && u.getSenha().equals(usuario.getSenha()));
+
         if (ok) {
             session.setAttribute("perfil", "ALUNO");
             session.setAttribute("usuarioLogado", usuario.getEmail());
             return "redirect:/home";
         }
+
+        model.addAttribute("alunoLogin", new Usuario());
         model.addAttribute("erro", "E-mail ou senha inválidos.");
+
         return "login-aluno";
     }
 
@@ -70,19 +102,34 @@ public class AuthController {
     // cadastro dos alunos
     @GetMapping("/cadastro/aluno")
     public String cadastroAlunoForm(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "cadastro-aluno";
+        model.addAttribute("alunoLogin", new Usuario());
+        return "cadastro-alunos";
     }
 
     @PostMapping("/cadastro/aluno")
-    public String cadastroAluno(@ModelAttribute Usuario usuario, Model model) {
-        boolean existe = alunos.stream()
-                .anyMatch(u -> u.getEmail().equals(usuario.getEmail()));
-        if (existe) {
-            model.addAttribute("erro", "E-mail já cadastrado.");
-            return "cadastro-aluno";
+    public String cadastroAluno(
+            @ModelAttribute Usuario usuario,
+            @RequestParam String confirmarSenha,
+            Model model) {
+
+        if (!usuario.getSenha().equals(confirmarSenha)) {
+            model.addAttribute("alunoLogin", usuario);
+            model.addAttribute("erro", "As senhas não coincidem.");
+            return "cadastro-alunos";
         }
+
+        boolean existe = alunos.stream()
+                .anyMatch(u ->
+                        u.getEmail().equalsIgnoreCase(usuario.getEmail()));
+
+        if (existe) {
+            model.addAttribute("alunoLogin", usuario);
+            model.addAttribute("erro", "E-mail já cadastrado.");
+            return "cadastro-alunos";
+        }
+
         alunos.add(usuario);
+
         return "redirect:/login/aluno?cadastrado=true";
     }
 
@@ -95,14 +142,27 @@ public class AuthController {
     }
 
     @PostMapping("/cadastro/professor")
-    public String cadastroProfessor(@ModelAttribute Usuario usuario, Model model) {
+    public String cadastroProfessor(
+            @ModelAttribute Usuario usuario,
+            @RequestParam String confirmarSenha,
+            Model model) {
+
+        if (!usuario.getSenha().equals(confirmarSenha)) {
+            model.addAttribute("erro", "As senhas não coincidem.");
+            return "cadastro-professor";
+        }
+
         boolean existe = professores.stream()
-                .anyMatch(u -> u.getEmail().equals(usuario.getEmail()));
+                .anyMatch(u -> u.getEmail()
+                        .equalsIgnoreCase(usuario.getEmail()));
+
         if (existe) {
             model.addAttribute("erro", "E-mail já cadastrado.");
             return "cadastro-professor";
         }
+
         professores.add(usuario);
+
         return "redirect:/login/professor?cadastrado=true";
     }
 

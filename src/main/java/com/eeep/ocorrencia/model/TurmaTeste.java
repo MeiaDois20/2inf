@@ -1,14 +1,14 @@
 package com.eeep.ocorrencia.model;
 
-public class Turma {
+public class TurmaTeste {
 
     private Integer codigo;
 
     private String descricao;
 
-    public Turma() {}
+    public TurmaTeste() {}
 
-    public Turma(Integer codigo, String descricao) {
+    public TurmaTeste(Integer codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
